@@ -1,0 +1,85 @@
+﻿@model List<Telefon_Rehberi.Application.ViewModels.ContactViewModel>
+@{
+    ViewData["Title"] = "Telefon Rehberi";
+}
+<div class="container-fluid">
+    <div class="d-flex flex-row flex-wrap">
+        <div class="col-lg-3 col-md-6 col-12 d-flex flex-column align-items-center">            
+            <img class="rounded-5 mb-5" src="~/img/phone.png" alt="Phone" />
+            <a id="btnAdd" asp-action="Add" class="btn btn-lg">Yeni Kişi Ekle</a>                    
+       </div>
+        <div class="col-lg-8 col-md-6 col-12">
+            <div class="card">
+                <div class="card-header">
+                    Filtreleme
+                </div>
+                <div class="card-body">
+                    <form method="get" asp-controller="Home" asp-action="Index" id="filter">
+                        <div class="form-group">
+                            <input id="firstName" placeholder="Ad" name="firstName" class="form-control" value="@ViewBag.FirstName" />
+                        </div>
+                        <div class="form-group">
+                            <input id="lastName" placeholder="Soyad" name="lastName" class="form-control" value="@ViewBag.LastName" />
+                        </div>
+                        <div class="form-group">
+                            <input id="phoneNumber" placeholder="Numara" name="phone" class="form-control" value="@ViewBag.Phone" />
+                        </div>
+                        <button id="filterButton" class="btn">Filtrele</button>
+                        <button type="button" id="reset" class="btn">Sıfırla</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"> Kişiler</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Numara</th>
+                                <th>E-posta Adresi</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="card-body">
+                            @foreach (var contact in Model)
+                            {
+
+                                <tr>
+                                    <td>@contact.FirstName</td>
+                                    <td>@contact.LastName</td>
+                                    <td>@contact.Phone</td>
+                                    <td>@contact.Email</td>
+
+                                    <td>
+                                        <a id="btnEdit" asp-action="Update" asp-route-Id="@contact.Id" class="btn"><i class="fa-solid fa-edit"></i></a>
+                                        <a id="btnDelete" class="btn" asp-action="Delete" asp-route-Id="@contact.Id"><i class="fa-solid fa-user-xmark"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        document.querySelector("#reset").addEventListener("click", () => {
+            const filterBtn = document.querySelector("#filterButton");
+            document.querySelector("#firstName").value = "";
+            document.querySelector("#lastName").value = "";
+            document.querySelector("#phoneNumber").value = "";
+            filterBtn.click();          
+           
+        });
+    </script>
+}
+
+
+
+
